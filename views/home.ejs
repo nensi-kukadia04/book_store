@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store</title>
+    <link rel="stylesheet" href="/fonts/remix-icon/remixicon.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+    <header class="bg-dark py-2">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg">
+                <div class="w-100 d-flex justify-content-between align-items-center">
+                    <div class="logo">
+                        <a href="" class="nav-link d-flex align-items-center navbar-brand fw-bolder">
+                            <i class="ri-book-shelf-line pe-2"></i>
+                            <span class="text-danger">BT-BOOKSTORE</span>
+                        </a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="menu">
+                        <div class="w-100 me-auto mb-2 mb-lg-0 d-flex justify-content-between">
+                            <ul class="navbar-nav  d-flex align-items-center">
+                                <li class="nav-item">
+                                    <a href="/" class="nav-link active fw-semibold text-white">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/" class="nav-link fw-semibold text-white">Books</a>
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav d-flex align-items-center">
+                                <li class="nav-item">
+                                    <a href="" class="nav-link text-white fw-semibold">
+                                        <i class="ri-shopping-cart-fill"></i>
+                                        Cart
+                                    </a>
+                                </li>
+                                <li class="nav-item px-3">
+                                    <a class="btn btn-sm btn-outline-danger" type="submit">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="" class="btn btn-sm btn-outline-info" data-bs-toggle="offcanvas"
+                                        data-bs-target="#addBook">
+                                        <i class="ri-add-line"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- offcanvas -->
+    <div class="offcanvas offcanvas-end" id="addBook">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Add Books Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form action="/insertData" method="post" enctype="multipart/form-data">
+                <div class="">
+                    <label for="" class="form-label">Title:</label>
+                    <input type="text" class="form-control" placeholder="Add book title" name="title">
+                </div>
+                <div class="">
+                    <label for="" class="form-label">Author:</label>
+                    <input type="text" class="form-control" placeholder="Add book author's name" name="author">
+                </div>
+                <div class="">
+                    <label for="" class="form-label">Description:</label>
+                    <input type="textarea" class="form-control" placeholder="Add book description" name="description">
+                </div>
+                <% var
+                    genrename=['Fantasy','Romance','Historical_Fiction','Horror','Mystery','Adventure_Fiction','Thriller']
+                    %>
+                    <div class="mt-2">
+                        <label class="form-label">Enter Book Genre :- </label>
+                        <div>
+                            <% genrename.map((item)=>{ %>
+                                <input type="checkbox" class="form-check-input mx-2" name="genre" value="<%= item %>" />
+                                <%= item %>
+                                    <% }) %>
+                        </div>
+                    </div>
+                    <div class="">
+                        <label for="" class="form-label">Price:</label>
+                        <input type="number" class="form-control" placeholder="Add book price" name="price">
+                    </div>
+                    <div class="">
+                        <label for="" class="form-label">Stock:</label>
+                        <input type="number" class="form-control" placeholder="Add book stock" name="stock">
+                    </div>
+                    <div class="">
+                        <label for="" class="form-label">published Date:</label>
+                        <input type="date" class="form-control" name="publishedDate" />
+                    </div>
+                    <div class="">
+                        <label for="" class="form-label">Publisher:</label>
+                        <input type="text" class="form-control" placeholder="Add book publisher" name="publisher">
+                    </div>
+                    <div class="">
+                        <label for="" class="form-label">coverImage:</label>
+                        <input type="file" class="form-control" name="image">
+                    </div>
+                    <div class="">
+                        <label for="" class="form-label">Rating:</label>
+                        <div>
+                            <% for(i=1;i<=5;i++){ %>
+                                <input type="radio" class="form-check-input mx-2 my-2" name="rating" value="<%= i %>" />
+                                <%= i %>
+                                    <% } %>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="submit" name="submit" value="submit"
+                            class="btn btn-sm w-100 btn-outline-success mt-3" />
+                    </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ViewData -->
+    <main>
+        <section class="py-4">
+            <div class="container">
+                <div class="banner p-4 rounded-top-4">
+                    <h4>View Book</h4>
+                </div>
+                <div class="border p-4 rounded-bottom-4">
+                    <div class="row">
+                        <% book.map((item,i)=>{ %>
+                            <div class="col-lg-3 my-3">
+                                <div class="banner-item d-flex border px-4 py-3">
+                                    <div class="card align-center my-auto shadow-sm">
+                                        <img src="<%= item.image %>" class="rounded image-thumbnail" style="height: 200px;" />
+                                        <div class="my-4 card-body">
+                                            <h5>
+                                                <%= item.title %>
+                                            </h5>
+                                            <h6>
+                                                <%= item.author %>
+                                            </h6>
+                                            <h6>Price : <%= item.price %> RoN</h6>
+                                            <a href="/viewData/<%= item.id %>" class="btn btn-sm btn-danger w-100 my-2">See Details</a>
+                                            <button class="btn btn-sm btn-danger w-100 text-white">Add to cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <script src="/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+</body>
+
+</html>
